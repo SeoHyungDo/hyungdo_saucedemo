@@ -11,7 +11,7 @@ class standard_user_obj :
         self.input_pw = (By.ID, 'password')
         self.login_button = (By.ID, 'login-button')
 
-    hamburger_menu = (By.CLASS_NAME, 'bm-burger-menu')
+    hamburger_menu = (By.CLASS_NAME, 'bm-burger-button')
 
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지
@@ -23,11 +23,17 @@ class standard_user_obj :
 
         self.driver.find_element(*self.login_button).click()
 
-    def hamburger_menu_click(self) :
-        return self.driver.find_element(*standard_user_obj.hamburger_menu).click()
+    def hamburger_menu_obj(self) :
+        return self.driver.find_element(*self.hamburger_menu)
 
-    def side_bar_menu(self):
-        All_Items = self.driver.find_element(By.ID,'inventory_sidebar_link')
-        About = self.driver.find_element(By.ID, 'about_sidebar_link')
-        Logout = self.driver.find_element(By.ID, 'logout_sidebar_link')
-        Reset_App_State = self.driver.find_element(By.ID, 'reset_sidebar_link')
+    def side_bar_all_items(self):
+        return self.driver.find_element(By.XPATH,'//*[@id="inventory_sidebar_link"]')
+
+    def side_bar_about(self):
+        return self.driver.find_element(By.XPATH, '//*[@id="about_sidebar_link"]')
+
+    def side_bar_logout(self):
+        return self.driver.find_element(By.XPATH, '//*[@id="logout_sidebar_link"]')
+
+    def side_bar_reset_app_state(self):
+        return self.driver.find_element(By.XPATH, '//*[@id="reset_sidebar_link"]')
