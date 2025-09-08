@@ -28,7 +28,7 @@ def pytest_addoption(parser):
 # help는 부연 설명으로 필수 아님
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="class", autouse=True)
 def setup(request):
     browser_name = request.config.getoption("browser_name") # 인자로 옵션 이름을 넣어주면 pytest_addoption에 전달했던 값을 받음
     if browser_name == "chrome" :
@@ -51,7 +51,7 @@ def setup(request):
         "profile.password_manager_enabled": False
     })
 
-    # 3. 브라우저 시작 시 팝업 관련 기능을 비활성화
+    # 브라우저 시작 시 팝업 관련 기능을 비활성화
     chrome_option.add_argument("--disable-save-password-bubble")
     chrome_option.add_argument("--disable-password-manager-reauthentication")
     chrome_option.add_argument("--disable-infobars")

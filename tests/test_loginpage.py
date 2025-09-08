@@ -1,10 +1,9 @@
 import pytest
 import time
+import requests
 from selenium.webdriver.common.by import By
 from utility.passclass import passclass
-from root_obj.homepage_obj import saucedemo_home
-from utility.BaseClass import BaseClass
-import requests
+from root_obj.loginpage_obj import saucedemo_home
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -26,9 +25,39 @@ class Test_demotest(passclass) :
         login_logo_text = saucedemo.login_logo_obj().text
         assert login_logo_text == "Swag Labs"
 
+    # locked 계정 Validation 노출 결과를 확인한다.
+    def test_lock_validation(self) :
+        saucedemo = saucedemo_home(self.driver)
+        expected_text = "Epic sadface: Sorry, this user has been locked out."
+        saucedemo.input_id_standard_user_login_obj("locked_out_user","secret_sauce") #standard User Login
+        validation_text_area_text = saucedemo.validation_text_area_obj().text
+        assert expected_text == validation_text_area_text
+
+    # ID / 비밀번호 불일치 Validation을 확인한다
+    def test_id_pw_invaild_validation(self) :
+        saucedemo = saucedemo_home(self.driver)
+        saucedemo.id_pw_clear()
+
+        expected_text = "Epic sadface: Username and password do not match any user in this service"
+        saucedemo.input_id_standard_user_login_obj("locked_out_user","1234") #standard User Login
+        validation_text_area_text = saucedemo.validation_text_area_obj().text
+        assert expected_text == validation_text_area_text
+
+    # ID / 비밀번호 미 입력
+    def test_id_pw_not_exist_validation(self) :
+        saucedemo = saucedemo_home(self.driver)
+        saucedemo.id_pw_clear()
+
+        expected_text = "Epic sadface: Username is required"
+        saucedemo.input_id_standard_user_login_obj("","") #standard User Login
+        validation_text_area_text = saucedemo.validation_text_area_obj().text
+        assert expected_text == validation_text_area_text
+
     # 로그인 후 URL에 inventory.html이 있는지 확인한다.
     def test_input_id(self) :
         saucedemo = saucedemo_home(self.driver)
+        saucedemo.id_pw_clear()
+
         saucedemo.input_id_standard_user_login_obj("standard_user","secret_sauce") #standard User Login
 
         wait = WebDriverWait(self.driver, 10)
@@ -37,6 +66,8 @@ class Test_demotest(passclass) :
         )
         assert "inventory.html" in self.driver.current_url
 
+
+# time.sleep(10)
 #    def test_apply_store_selectbox_action(self):
 #        Coupang_main = coupang_main(self.driver)
 #        expected_text = "오픈마켓\n여행·티켓\n로켓배송\n제휴마케팅\n로켓그로스"
