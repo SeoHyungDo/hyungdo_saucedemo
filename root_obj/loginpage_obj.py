@@ -1,5 +1,5 @@
 from http.client import responses
-
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import requests
 
@@ -12,12 +12,25 @@ class saucedemo_home:
         self.login_button = (By.ID, 'login-button')
 
     login_logo = (By.XPATH,'//*[@id="root"]/div/div[1]')
+    validation_text_area = (By.XPATH,'//*[@id="login_button_container"]/div/form/div[3]/h3')
+
+    def id_pw_clear(self):
+        id_input_element = self.driver.find_element(*self.input_id)
+        id_input_element.send_keys(Keys.CONTROL + "a")
+        id_input_element.send_keys(Keys.BACKSPACE)
+
+        pw_input_element = self.driver.find_element(*self.input_pw)
+        pw_input_element.send_keys(Keys.CONTROL + "a")
+        pw_input_element.send_keys(Keys.BACKSPACE)
 
     def login_logo_obj(self):
         return self.driver.find_element(*saucedemo_home.login_logo)
 
     def input_id_obj(self): # login > ID 경로
         return self.driver.find_element(*saucedemo_home.input_id)
+
+    def validation_text_area_obj(self):
+        return self.driver.find_element(*saucedemo_home.validation_text_area)
 
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지

@@ -1,0 +1,7 @@
+# .gitignore
+
+# 가상 환경 폴더를 Git에서 제외
+.venv/
+
+# 파이썬 캐시 파일(임시 파일)을 Git에서 제외
+__pycache__/

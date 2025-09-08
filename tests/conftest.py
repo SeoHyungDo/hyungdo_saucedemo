@@ -31,8 +31,24 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="class")
 def setup(request):
     browser_name = request.config.getoption("browser_name") # 인자로 옵션 이름을 넣어주면 pytest_addoption에 전달했던 값을 받음
+
+    # service_obj = Service(r"\Users\tjg10\PycharmProjects\PythonProject\Chromedriver.exe")
+    # Mac의 경우 Chromedriver만 쓰면 됨, .exe는 윈도우에서 기재
+    chrome_option = webdriver.ChromeOptions()
+    # 비밀번호 관리자 및 자동 완성을 완전히 비활성화 (가장 중요)
+    chrome_option.add_experimental_option("prefs", {
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False, #2줄은 기본 제공 옵션 알림 끄기
+        "profile.password_manager_leak_detection": False # 비밀번호 유출 감지 알림 끄기
+    })
+
+    # 브라우저 시작 시 팝업 관련 기능을 비활성화
+    chrome_option.add_argument("--disable-save-password-bubble")
+    chrome_option.add_argument("--disable-password-manager-reauthentication")
+    chrome_option.add_argument("--disable-infobars")
+
     if browser_name == "chrome" :
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=chrome_option)
         driver.get("https://www.saucedemo.com/")
         driver.maximize_window()
     elif browser_name == "firefox" :
@@ -42,20 +58,6 @@ def setup(request):
     elif browser_name == "IE" :
         print("IE 브라우저 설치시 IE 사용 가능")
 
-    # service_obj = Service(r"\Users\tjg10\PycharmProjects\PythonProject\Chromedriver.exe")
-    # Mac의 경우 Chromedriver만 쓰면 됨, .exe는 윈도우에서 기재
-    chrome_option = webdriver.ChromeOptions()
-    # 비밀번호 관리자 및 자동 완성을 완전히 비활성화 (가장 중요)
-    chrome_option.add_experimental_option("prefs", {
-        "credentials_enable_service": False,
-        "profile.password_manager_enabled": False
-    })
-
-    # 3. 브라우저 시작 시 팝업 관련 기능을 비활성화
-    chrome_option.add_argument("--disable-save-password-bubble")
-    chrome_option.add_argument("--disable-password-manager-reauthentication")
-    chrome_option.add_argument("--disable-infobars")
-    
     # headless, SSL 오류 패스를 위한 chrome_option 선언
     # driver = webdriver.Chrome(service=service_obj)
     driver.implicitly_wait(10)
