@@ -45,6 +45,17 @@ def setup(request):
     # service_obj = Service(r"\Users\tjg10\PycharmProjects\PythonProject\Chromedriver.exe")
     # Mac의 경우 Chromedriver만 쓰면 됨, .exe는 윈도우에서 기재
     chrome_option = webdriver.ChromeOptions()
+    # 비밀번호 관리자 및 자동 완성을 완전히 비활성화 (가장 중요)
+    chrome_option.add_experimental_option("prefs", {
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    })
+
+    # 3. 브라우저 시작 시 팝업 관련 기능을 비활성화
+    chrome_option.add_argument("--disable-save-password-bubble")
+    chrome_option.add_argument("--disable-password-manager-reauthentication")
+    chrome_option.add_argument("--disable-infobars")
+    
     # headless, SSL 오류 패스를 위한 chrome_option 선언
     # driver = webdriver.Chrome(service=service_obj)
     driver.implicitly_wait(10)
