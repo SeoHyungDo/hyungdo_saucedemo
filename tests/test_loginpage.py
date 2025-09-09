@@ -6,6 +6,7 @@ from utility.passclass import passclass
 from root_obj.loginpage_obj import saucedemo_home
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from root_obj.global_obj import global_menu
 
 class Test_demotest(passclass) :
 
@@ -20,10 +21,9 @@ class Test_demotest(passclass) :
            pytest.fail(f"url 접속 실패 : {e}")
 
     # 상단 로고 텍스트가 정상 노출되는지 확인한다.
-    def test_login_logo(self) :
+    def test_login_top_logo(self) :
         saucedemo = saucedemo_home(self.driver)
-        login_logo_text = saucedemo.login_logo_obj().text
-        assert login_logo_text == "Swag Labs"
+        assert saucedemo.login_top_logo_text() == "Swag Labs"
 
     # locked 계정 Validation 노출 결과를 확인한다.
     def test_lock_validation(self) :
