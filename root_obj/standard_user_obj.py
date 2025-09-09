@@ -11,14 +11,13 @@ class standard_user_obj :
         self.input_pw = (By.ID, 'password')
         self.login_button = (By.ID, 'login-button')
 
-    hamburger_menu = (By.CLASS_NAME, 'bm-burger-button')
+
     Add_to_cart = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
     Add_to_cart_click_after = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
     first_product_title = (By.XPATH, '//*[@id="item_4_title_link"]/div')
     first_product_description = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div')
     first_product_price = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[2]/div')
-    cart_button = (By.XPATH, '//*[@id="shopping_cart_container"]/a')
-    cart_button_badge = (By.XPATH, '//*[@id="shopping_cart_container"]/a/span')
+
 
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지
@@ -30,35 +29,18 @@ class standard_user_obj :
 
         self.driver.find_element(*self.login_button).click()
 
-    def hamburger_menu_obj(self) :
-        return self.driver.find_element(*self.hamburger_menu)
-
-    def side_bar_all_items(self):
-        return self.driver.find_element(By.XPATH,'//*[@id="inventory_sidebar_link"]')
-
-    def side_bar_about(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="about_sidebar_link"]')
-
-    def side_bar_logout(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="logout_sidebar_link"]')
-
-    def side_bar_reset_app_state(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="reset_sidebar_link"]')
-
-    def side_bar_x_button(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="react-burger-cross-btn"]')
-
     def add_to_cart_button(self):
         return self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
 
-    def add_to_cart_click_button_after(self):
+    def add_to_cart_button_text(self):
+        return self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]').text
+
+    def remove_cart_button(self):
         return self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
 
-    def cart_button_obj(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="shopping_cart_container"]/a')
+    def remove_cart_button_text(self):
+        return self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-backpack"]').text
 
-    def cart_button_badge_obj(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="shopping_cart_container"]/a/span')
 
     def first_product_info(self):
         first_product = {

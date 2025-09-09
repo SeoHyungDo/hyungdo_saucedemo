@@ -11,8 +11,8 @@ class saucedemo_home:
         self.input_pw = (By.ID, 'password')
         self.login_button = (By.ID, 'login-button')
 
-    login_logo = (By.XPATH,'//*[@id="root"]/div/div[1]')
     validation_text_area = (By.XPATH,'//*[@id="login_button_container"]/div/form/div[3]/h3')
+    login_top_logo = (By.XPATH,'//*[@id="root"]/div/div[1]')
 
     def id_pw_clear(self):
         id_input_element = self.driver.find_element(*self.input_id)
@@ -23,8 +23,8 @@ class saucedemo_home:
         pw_input_element.send_keys(Keys.CONTROL + "a")
         pw_input_element.send_keys(Keys.BACKSPACE)
 
-    def login_logo_obj(self):
-        return self.driver.find_element(*saucedemo_home.login_logo)
+    def login_top_logo_text(self):
+        return self.driver.find_element(*saucedemo_home.login_top_logo).text
 
     def input_id_obj(self): # login > ID 경로
         return self.driver.find_element(*saucedemo_home.input_id)
