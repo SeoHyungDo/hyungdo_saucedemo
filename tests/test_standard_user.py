@@ -2,6 +2,8 @@ import pytest
 import time
 import requests
 import os
+
+from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from root_obj.standard_user_obj import standard_user_obj
 from utility.passclass import passclass
@@ -9,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from root_obj.standard_user_obj import standard_user_obj
 from root_obj.global_obj import global_menu
+from root_obj.cart_obj import cart
 
 class Test_standard_user(passclass) :
 
@@ -39,12 +42,10 @@ class Test_standard_user(passclass) :
         assert global_obj.side_bar_about_text() == expected_text_About
 
         expected_text_Logout = "Logout"
-        Logout_text = global_obj.side_bar_logout().text
-        assert Logout_text == expected_text_Logout
+        assert global_obj.side_bar_logout_text() == expected_text_Logout
 
         expected_text_Reset_App_State = "Reset App State"
-        Reset_App_State_text = global_obj.side_bar_reset_app_state().text
-        assert Reset_App_State_text == expected_text_Reset_App_State
+        assert global_obj.side_bar_reset_app_text() == expected_text_Reset_App_State
 
         global_obj.side_bar_x_button().click()
 
@@ -110,4 +111,36 @@ class Test_standard_user(passclass) :
 
     def test_cart_base_ui(self):
         global_obj = global_menu(self.driver)
-        assert global_obj.top_logo_text() == "Swag Labs"
+        cart_obj = cart(self.driver)
+
+        assert global_obj.top_logo_text() == "Swag Labs" # Cart > 로고 명칭 확인
+        assert global_obj.cart_button_badge_number() == '1'  # Cart > 상단 cart 아이콘 카운트 1 노출 확인
+        assert cart_obj.cart_your_cart_title() == "Your Cart" # Cart > Your Cart Title 확인
+        assert cart_obj.cart_list_qty() == "QTY" # Cart > List > QTY 명칭 확인
+        assert cart_obj.cart_list_description() == "Description" # Cart > List > Description 명칭 확인
+        assert cart_obj.cart_list_qty_number_1_obj() == "1"  # Cart > List > Qty > 1 노츨 확인
+        assert cart_obj.cart_list_product_name_1_obj() == "Sauce Labs Backpack"  # Cart > List > Cart에 추가된 상품명 확인
+        assert cart_obj.cart_list_product_description_1_obj() == "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection."  # Cart > List > Cart에 추가된 상품 Description 확인
+        assert cart_obj.cart_list_product_price_1_obj() == "$29.99" # Cart > List > Cart에 추가된 상품 가격 확인
+        assert cart_obj.cart_remove_button_text() == "Remove" # Cart > Remove 버튼 확인
+        assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping" # Cart > Continue 버튼 확인
+        assert cart_obj.cart_checkout_button_text() == "Checkout" # Cart > Continue 버튼 확인
+
+    def test_cart_remove_action(self):
+        global_obj = global_menu(self.driver)
+        cart_obj = cart(self.driver)
+
+        cart_obj.cart_remove_button_obj().click()
+
+        # assert global_obj.top_logo_text() == "Swag Labs"  # Cart > 로고 명칭 확인
+        # assert not cart_obj.cart_button_badge
+        # assert cart_obj.cart_your_cart_title() == "Your Cart"  # Cart > Your Cart Title 확인
+        # assert cart_obj.cart_list_qty() == "QTY"  # Cart > List > QTY 명칭 확인
+        # assert cart_obj.cart_list_description() == "Description"  # Cart > List > Description 명칭 확인
+        # assert len(self.driver.find_elements(*cart_obj.cart_list_qty_number_1_obj)) == 0  # Cart > List > Qty > 1 제거 확인
+        # assert len(self.driver.find_elements(*cart_obj.cart_list_product_name_1_obj)) == 0  # Cart > List > Cart에 추가된 상품명 제거 확인
+        # assert len(self.driver.find_elements(*cart_obj.cart_list_product_description_1_obj)) == 0 # Cart > List > Cart에 추가된 상품 Description 제거 확인
+        # assert len(self.driver.find_elements(*cart_obj.cart_list_product_price_1_obj)) == 0  # Cart > List > Cart에 추가된 상품 가격 제거 확인
+        # assert len(self.driver.find_elements(*cart_obj.cart_remove_button_obj)) == 0  # Cart > Remove 버튼 제거 확인
+        # assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping"  # Cart > Continue 버튼 확인
+        # assert cart_obj.cart_checkout_button_text() == "Checkout"  # Cart > Continue 버튼 확인
