@@ -32,6 +32,9 @@ class saucedemo_home:
     def validation_text_area_obj(self):
         return self.driver.find_element(*saucedemo_home.validation_text_area)
 
+    def validation_text_area_text(self):
+        return self.driver.find_element(*saucedemo_home.validation_text_area).text
+
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지
         self.driver.execute_script("document.getElementById('user-name').setAttribute('autocomplete', 'off');")

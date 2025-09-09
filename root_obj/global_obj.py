@@ -8,10 +8,9 @@ class global_menu:
     def __init__(self, driver):  # 생성자, 객체를 생성할 때 driver객체를 인자로 넣어 줄 것이라 생각하고 그 driver 객체를 받아 self.driver에 할당
         self.driver = driver
 
+    # 버튼 액션과 명칭 검증 등 여러가지가 필요한 경우 변수로 선언 했습니다.
     top_logo = (By.XPATH,'//*[@id="header_container"]/div[1]/div[2]/div')
     hamburger_menu = (By.CLASS_NAME, 'bm-burger-button')
-    cart_button = (By.XPATH, '//*[@id="shopping_cart_container"]/a')
-    cart_button_badge = (By.XPATH, '//*[@id="shopping_cart_container"]/a/span')
 
     def top_logo_obj(self):
         return self.driver.find_element(*global_menu.top_logo)
