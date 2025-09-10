@@ -14,10 +14,13 @@ class standard_user_obj :
 
     Add_to_cart = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
     Add_to_cart_click_after = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
+
     first_product_title = (By.XPATH, '//*[@id="item_4_title_link"]/div')
     first_product_description = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div')
     first_product_price = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[2]/div')
 
+    add_to_cart_button = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
+    remove_cart_button = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
 
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지
@@ -29,17 +32,17 @@ class standard_user_obj :
 
         self.driver.find_element(*self.login_button).click()
 
-    def add_to_cart_button(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
+    def add_to_cart_button_obj(self):
+        return self.driver.find_element(*self.add_to_cart_button)
 
     def add_to_cart_button_text(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]').text
+        return self.driver.find_element(*self.add_to_cart_button).text
 
-    def remove_cart_button(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
+    def remove_cart_button_obj(self):
+        return self.driver.find_element(*self.remove_cart_button)
 
     def remove_cart_button_text(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-backpack"]').text
+        return self.driver.find_element(*self.remove_cart_button).text
 
 
     def first_product_info(self):

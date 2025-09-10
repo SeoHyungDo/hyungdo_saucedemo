@@ -47,7 +47,22 @@ class Test_standard_user(passclass) :
         expected_text_Reset_App_State = "Reset App State"
         assert global_obj.side_bar_reset_app_text() == expected_text_Reset_App_State
 
-        global_obj.side_bar_x_button().click()
+        global_obj.side_bar_x_button_obj().click()
+
+    def test_twitter_button_action(self):
+        global_obj = global_menu(self.driver)
+        twitter_url = global_obj.twitter_button_tab_action()
+        assert "https://x.com/saucelabs" in twitter_url  # Url에 https://x.com/saucelabs 포함 확인
+
+    def test_facebook_button_action(self):
+        global_obj = global_menu(self.driver)
+        facebook_url = global_obj.facebook_button_tab_action()
+        assert "https://www.facebook.com/saucelabs" in facebook_url  # Url에 https://www.facebook.com/saucelabs 포함 확인
+
+    def test_linkedin_button_action(self):
+        global_obj = global_menu(self.driver)
+        linkedin_url = global_obj.linkedin_button_tab_action()
+        assert "https://www.linkedin.com/authwall" in linkedin_url  # Url이 너무 길어서 일부만 포함하는 내용으로 확인함 (로그인 페이지임)
 
     def test_product_image_check(self):
         standard_user = standard_user_obj(self.driver)
@@ -76,11 +91,11 @@ class Test_standard_user(passclass) :
         standard_user = standard_user_obj(self.driver)
         global_obj = global_menu(self.driver)
 
-        standard_user.add_to_cart_button().click()
+        standard_user.add_to_cart_button_obj().click()
 
         expect_remove_button = "Remove"
         assert standard_user.remove_cart_button_text() == expect_remove_button # remove 버튼 노출 확인
-        assert global_obj.cart_button_badge_number() == '1' # 상단 cart 아이콘 카운트 1 노출 확인
+        assert global_obj.cart_button_badge_number_obj() == '1' # 상단 cart 아이콘 카운트 1 노출 확인
 
         global_obj.cart_button_obj().click()
 
@@ -107,7 +122,7 @@ class Test_standard_user(passclass) :
         expected_text_Reset_App_State = "Reset App State"
         assert global_obj.side_bar_reset_app_text() == expected_text_Reset_App_State
 
-        global_obj.side_bar_x_button().click()
+        global_obj.side_bar_x_button_obj().click()
 
     def test_cart_base_ui(self):
         global_obj = global_menu(self.driver)
@@ -132,15 +147,15 @@ class Test_standard_user(passclass) :
 
         cart_obj.cart_remove_button_obj().click()
 
-        # assert global_obj.top_logo_text() == "Swag Labs"  # Cart > 로고 명칭 확인
-        # assert not cart_obj.cart_button_badge
-        # assert cart_obj.cart_your_cart_title() == "Your Cart"  # Cart > Your Cart Title 확인
-        # assert cart_obj.cart_list_qty() == "QTY"  # Cart > List > QTY 명칭 확인
-        # assert cart_obj.cart_list_description() == "Description"  # Cart > List > Description 명칭 확인
-        # assert len(self.driver.find_elements(*cart_obj.cart_list_qty_number_1_obj)) == 0  # Cart > List > Qty > 1 제거 확인
-        # assert len(self.driver.find_elements(*cart_obj.cart_list_product_name_1_obj)) == 0  # Cart > List > Cart에 추가된 상품명 제거 확인
-        # assert len(self.driver.find_elements(*cart_obj.cart_list_product_description_1_obj)) == 0 # Cart > List > Cart에 추가된 상품 Description 제거 확인
-        # assert len(self.driver.find_elements(*cart_obj.cart_list_product_price_1_obj)) == 0  # Cart > List > Cart에 추가된 상품 가격 제거 확인
-        # assert len(self.driver.find_elements(*cart_obj.cart_remove_button_obj)) == 0  # Cart > Remove 버튼 제거 확인
-        # assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping"  # Cart > Continue 버튼 확인
-        # assert cart_obj.cart_checkout_button_text() == "Checkout"  # Cart > Continue 버튼 확인
+        assert global_obj.top_logo_text() == "Swag Labs"  # Cart > 로고 명칭 확인
+        assert len(self.driver.find_elements(*cart_obj.cart_button_badge)) == 0
+        assert cart_obj.cart_your_cart_title() == "Your Cart"  # Cart > Your Cart Title 확인
+        assert cart_obj.cart_list_qty() == "QTY"  # Cart > List > QTY 명칭 확인
+        assert cart_obj.cart_list_description() == "Description"  # Cart > List > Description 명칭 확인
+        assert len(self.driver.find_elements(*cart_obj.cart_list_qty_number_1_locator)) == 0  # Cart > List > Qty > 1 제거 확인
+        assert len(self.driver.find_elements(*cart_obj.cart_list_product_name_1_locator)) == 0  # Cart > List > Cart에 추가된 상품명 제거 확인
+        assert len(self.driver.find_elements(*cart_obj.cart_list_product_description_1_locator)) == 0 # Cart > List > Cart에 추가된 상품 Description 제거 확인
+        assert len(self.driver.find_elements(*cart_obj.cart_list_product_price_1_locator)) == 0  # Cart > List > Cart에 추가된 상품 가격 제거 확인
+        assert len(self.driver.find_elements(*cart_obj.cart_remove_button)) == 0  # Cart > Remove 버튼 제거 확인
+        assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping"  # Cart > Continue 버튼 확인
+        assert cart_obj.cart_checkout_button_text() == "Checkout"  # Cart > Continue 버튼 확인
