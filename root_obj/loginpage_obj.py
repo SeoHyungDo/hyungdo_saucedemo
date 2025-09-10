@@ -24,16 +24,16 @@ class saucedemo_home:
         pw_input_element.send_keys(Keys.BACKSPACE)
 
     def login_top_logo_text(self):
-        return self.driver.find_element(*saucedemo_home.login_top_logo).text
+        return self.driver.find_element(*self.login_top_logo).text
 
     def input_id_obj(self): # login > ID 경로
-        return self.driver.find_element(*saucedemo_home.input_id)
+        return self.driver.find_element(*self.input_id)
 
     def validation_text_area_obj(self):
-        return self.driver.find_element(*saucedemo_home.validation_text_area)
+        return self.driver.find_element(*self.validation_text_area)
 
     def validation_text_area_text(self):
-        return self.driver.find_element(*saucedemo_home.validation_text_area).text
+        return self.driver.find_element(*self.validation_text_area).text
 
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지
@@ -46,13 +46,13 @@ class saucedemo_home:
         self.driver.find_element(*self.login_button).click()
 
     def input_pw_obj(self): # login > PW 경로
-        return self.driver.find_element(*saucedemo_home.input_pw)
+        return self.driver.find_element(*self.input_pw)
 
     def input_pw_exist_obj(self): # pw에 공통 비밀번호 입력 상태
-        return self.driver.find_element(*saucedemo_home.input_pw).send_keys("secret_sauce")
+        return self.driver.find_element(*self.input_pw).send_keys("secret_sauce")
 
     def login_button_obj(self): # 로그인 버튼 위치
-        return self.driver.find_element(*saucedemo_home.login_button)
+        return self.driver.find_element(*self.login_button)
     
     def login_button_click_obj(self): # pw에 공통 비밀번호 입력 상태
-        return self.driver.find_element(*saucedemo_home.login_button).click()
+        return self.driver.find_element(*self.login_button).click()
