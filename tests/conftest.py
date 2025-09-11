@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture()
 def conf() :
@@ -60,8 +61,40 @@ def setup(request):
 
     # headless, SSL 오류 패스를 위한 chrome_option 선언
     # driver = webdriver.Chrome(service=service_obj)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(5)
     request.cls.driver = driver  # 여기서 선언한 객체가 클래스로 보내짐, 해당 문이 있으면 return 필요 없음
 
     yield  # 테스트 종료 후
     driver.close()  # 브라우저를 닫아줌
+
+
+@pytest.fixture(scope="function")
+def setup_function(request):
+    browser_name = request.config.getoption("browser_name")
+    driver = None  # 드라이버 객체를 미리 초기화
+
+    if browser_name == "chrome":
+        options = Options()
+        options.add_experimental_option("prefs", {
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False,
+            "profile.password_manager_leak_detection": False
+        })
+        options.add_argument("--disable-save-password-bubble")
+        options.add_argument("--disable-password-manager-reauthentication")
+        options.add_argument("--disable-infobars")
+
+        driver = webdriver.Chrome(options=options)
+
+    elif browser_name == "firefox":
+        driver = webdriver.Firefox()
+
+    if driver:
+        driver.get("https://www.saucedemo.com/")
+        driver.maximize_window()
+        request.cls.driver = driver  # 클래스 내에서 self.driver 로 접근 가능
+    yield driver  # driver 객체를 직접 반환합니다.
+
+    # yield 이후 드라이버가 존재할 때만 닫아줌
+    if driver:
+        driver.quit()

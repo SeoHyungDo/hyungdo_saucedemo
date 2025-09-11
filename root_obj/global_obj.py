@@ -2,6 +2,7 @@ from http.client import responses
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import requests
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class global_menu:
@@ -94,9 +95,21 @@ class global_menu:
         return new_tab_facebook_url # URL 리턴
 
     def linkedin_button_tab_action(self):
-        tabs = self.driver.window_handles # 현재 열려있는 탭 리스트 확인
-        self.driver.switch_to.window(tabs[-1]) # 새 탭으로 전환 (보통 마지막 index가 새 탭)
-        new_tab_linkedin_url = self.driver.current_url # URL 받아서 저장
-        self.driver.close() # 탭 닫기
-        self.driver.switch_to.window(tabs[0]) # 원래 탭으로 돌아오기 (첫 번째 탭)
-        return new_tab_linkedin_url # URL 리턴
+        original_window = self.driver.current_window_handle
+        self.linkedin_button_obj().click()
+
+        # 새 탭 열릴 때까지 대기
+        WebDriverWait(self.driver, 5).until(lambda d: len(d.window_handles) > 1)
+        new_window = [w for w in self.driver.window_handles if w != original_window][0]
+
+        self.driver.switch_to.window(new_window)
+        linkedin_url = self.driver.current_url
+        self.driver.close()  # 새 탭 닫기
+
+        # 원래 탭이 살아있으면 돌아가기
+        if original_window in self.driver.window_handles:
+            self.driver.switch_to.window(original_window)
+        else:
+            raise Exception("원래 탭이 닫혀있어 복귀할 수 없습니다.")
+
+        return linkedin_url
