@@ -24,6 +24,11 @@ class cart:
     cart_list_product_description_1_locator = (By.XPATH, '//*[@id="cart_contents_container"]/div/div[1]/div[3]/div[2]/div[1]')
     cart_list_product_price_1_locator = (By.XPATH, '//*[@id="cart_contents_container"]/div/div[1]/div[3]/div[2]/div[2]/div')
 
+    cart_list_qty_number_2_locator = (By.XPATH, '//*[@id="cart_contents_container"]/div/div[1]/div[4]/div[1]')
+    cart_list_product_name_2_locator = (By.XPATH, '//*[@id="item_0_title_link"]/div')
+    cart_list_product_description_2_locator = (By.XPATH, '//*[@id="cart_contents_container"]/div/div[1]/div[4]/div[2]/div[1]')
+    cart_list_product_price_2_locator = (By.XPATH, '//*[@id="cart_contents_container"]/div/div[1]/div[4]/div[2]/div[2]/div')
+
     def cart_your_cart_title(self):
         return self.driver.find_element(*self.cart_your_cart_title_locator).text
 
@@ -47,6 +52,18 @@ class cart:
 
     def cart_list_product_price_1_obj(self):
         return self.driver.find_element(*self.cart_list_product_price_1_locator).text
+
+    def cart_list_qty_number_2_obj(self):
+        return self.driver.find_element(*self.cart_list_qty_number_2_locator).text
+
+    def cart_list_product_name_2_obj(self):
+        return self.driver.find_element(*self.cart_list_product_name_2_locator).text
+
+    def cart_list_product_description_2_obj(self):
+        return self.driver.find_element(*self.cart_list_product_description_2_locator).text
+
+    def cart_list_product_price_2_obj(self):
+        return self.driver.find_element(*self.cart_list_product_price_2_locator).text
 
     def cart_remove_button_obj(self):
         return self.driver.find_element(*self.cart_remove_button)
