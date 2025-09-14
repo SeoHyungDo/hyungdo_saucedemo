@@ -18,6 +18,7 @@ class standard_user_obj :
     Add_to_cart_click_after = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
 
     product_title = (By.XPATH,'//*[@id="header_container"]/div[2]/span')
+    sort_select_box = (By.XPATH,'//*[@id="header_container"]/div[2]/div/span/select')
 
     first_product_title = (By.XPATH, '//*[@id="item_4_title_link"]/div')
     first_product_description = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div')
@@ -50,8 +51,15 @@ class standard_user_obj :
 
         wait.until(EC.visibility_of_element_located((By.ID, "inventory_container")))
 
-    def product_title_obj(self):
+    def product_title_text(self):
         return self.driver.find_element(*self.product_title).text
+
+    def sort_select_box_click_obj(self):
+        return self.driver.find_element(*self.sort_select_box)
+
+    def sort_select_box_text(self):
+        elements = self.driver.find_elements(By.XPATH, '//*[@id="header_container"]/div[2]/div/span/select/option')
+        return [el.text for el in elements]
 
     def first_add_to_cart_button_obj(self):
         return self.driver.find_element(*self.first_add_to_cart_button)

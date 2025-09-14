@@ -32,7 +32,21 @@ class Test_standard_user(passclass) :
 
         product_title_expect = "Products"
 
-        assert standard_user.product_title_obj() == product_title_expect
+        assert standard_user.product_title_text() == product_title_expect
+
+    def test_sort_select_box(self):
+        standard_user = standard_user_obj(self.driver)
+
+        sort_select_box_expect = standard_user.sort_select_box_text()
+        standard_user.sort_select_box_click_obj().click()
+
+        sort_select_box_elements = self.driver.find_elements(
+            By.XPATH, '//*[@id="header_container"]/div[2]/div/span/select/option'
+        )
+        sort_select_box_actual = [el.text for el in sort_select_box_elements]
+
+        assert sort_select_box_actual == sort_select_box_expect, \
+            f"Expected {sort_select_box_expect}, but got {sort_select_box_actual}"
 
     def test_left_menu(self):
         global_obj = global_menu(self.driver)
