@@ -2,7 +2,9 @@ from http.client import responses
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import requests
-
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 class saucedemo_home:
     def __init__(self, driver): #생성자, 객체를 생성할 때 driver객체를 인자로 넣어 줄 것이라 생각하고 그 driver 객체를 받아 self.driver에 할당
@@ -42,6 +44,10 @@ class saucedemo_home:
 
         self.driver.find_element(*self.input_id).send_keys(username)
         self.driver.find_element(*self.input_pw).send_keys(password)
+
+        # WebDriverWait(self.driver, 10).until(
+        #     EC.visibility_of_element_located((By.ID, "inventory_container"))
+        # )
 
         self.driver.find_element(*self.login_button).click()
 
