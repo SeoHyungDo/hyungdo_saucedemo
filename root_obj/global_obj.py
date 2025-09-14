@@ -18,6 +18,7 @@ class global_menu:
     twitter_button = (By.XPATH,'//*[@id="page_wrapper"]/footer/ul/li[1]/a')
     facebook_button = (By.XPATH, '//*[@id="page_wrapper"]/footer/ul/li[2]/a')
     instagram_button = (By.XPATH, '//*[@id="page_wrapper"]/footer/ul/li[3]/a')
+    footer_text = (By.XPATH,'//*[@id="page_wrapper"]/footer/div')
     side_bar_reset_app_state = (By.XPATH, '//*[@id="reset_sidebar_link"]')
     side_bar_x_button = (By.XPATH, '//*[@id="react-burger-cross-btn"]')
     cart_button = (By.XPATH, '//*[@id="shopping_cart_container"]/a')
@@ -77,6 +78,9 @@ class global_menu:
 
     def instagram_button_obj(self):
         return self.driver.find_element(*self.instagram_button)
+
+    def footer_text_obj(self):
+        return self.driver.find_element(*self.footer_text).text
 
     def twitter_button_tab_action(self):
         tabs = self.driver.window_handles # 현재 열려있는 탭 리스트 확인
