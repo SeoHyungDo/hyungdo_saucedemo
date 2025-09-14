@@ -27,6 +27,13 @@ class Test_standard_user(passclass) :
         )
         assert "inventory.html" in self.driver.current_url # Url에 inventory.html이 포함 확인
 
+    def test_product_title(self):
+        standard_user = standard_user_obj(self.driver)
+
+        product_title_expect = "Products"
+
+        assert standard_user.product_title_obj() == product_title_expect
+
     def test_left_menu(self):
         global_obj = global_menu(self.driver)
 
@@ -101,6 +108,10 @@ class Test_standard_user(passclass) :
     #     self.driver.execute_script("arguments[0].scrollIntoView(true);", global_obj.twitter_button_obj())
     #     linkedin_url = global_obj.linkedin_button_tab_action()
     #     assert "https://www.linkedin.com/authwall" in linkedin_url  # Url이 너무 길어서 일부만 포함하는 내용으로 확인함 (로그인 페이지임)
+    def test_footer_text_check(self):
+        global_obj = global_menu(self.driver)
+        footer_text_expect = '© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy'
+        assert global_obj.footer_text_obj() == footer_text_expect
 
     def test_product_image_check(self):
         standard_user = standard_user_obj(self.driver)
@@ -182,24 +193,23 @@ class Test_standard_user(passclass) :
     def test_cart_remove_action(self):
         global_obj = global_menu(self.driver)
         cart_obj = cart(self.driver)
-        standard_user = standard_user_obj(self.driver)
 
         cart_obj.cart_remove_button_obj().click()
 
-        assert global_obj.top_logo_text() == "Swag Labs"
-        assert cart_obj.cart_your_cart_title() == "Your Cart"
-        assert cart_obj.cart_list_qty() == "QTY"
-        assert cart_obj.cart_list_description() == "Description"
-        assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping"
-        assert cart_obj.cart_checkout_button_text() == "Checkout"
+        assert global_obj.top_logo_text() == "Swag Labs" # cart 상단 페이지 로그 노출
+        assert cart_obj.cart_your_cart_title() == "Your Cart" # 카트 메뉴 명칭 노출
+        assert cart_obj.cart_list_qty() == "QTY" # QTY 테이블 명칭 노출
+        assert cart_obj.cart_list_description() == "Description" # Description 명칭 노출
+        assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping" # Continue Shopping 버튼 명 노출
+        assert cart_obj.cart_checkout_button_text() == "Checkout" # Checkout 버튼 명 노출
 
 
-        assert not self.driver.find_elements(*cart_obj.cart_button_badge)
-        assert not self.driver.find_elements(*cart_obj.cart_list_qty_number_1_locator)
-        assert not self.driver.find_elements(*cart_obj.cart_list_product_name_1_locator)
-        assert not self.driver.find_elements(*cart_obj.cart_list_product_description_1_locator)
-        assert not self.driver.find_elements(*cart_obj.cart_list_product_price_1_locator)
-        assert not self.driver.find_elements(*cart_obj.cart_remove_button_count_obj())
+        assert not self.driver.find_elements(*cart_obj.cart_button_badge) # Cart 아이콘 뱃지가 노출되지 않아야 PASS
+        assert not self.driver.find_elements(*cart_obj.cart_list_qty_number_1_locator) # Cart List 내 QTY 1이 노출되지 않아야 정상
+        assert not self.driver.find_elements(*cart_obj.cart_list_product_name_1_locator) # Cart List 내 상품 명이 노출되지 않아야 정상
+        assert not self.driver.find_elements(*cart_obj.cart_list_product_description_1_locator) # Cart List 내 상품 설명이 노출되지 않아야 정상
+        assert not self.driver.find_elements(*cart_obj.cart_list_product_price_1_locator) # Cart List 내 상품 가격이 노출되지 않아야 정상
+        assert not self.driver.find_elements(*cart_obj.cart_remove_button_count_obj()) # 이미 삭제되었으므로, remove 버튼이 노출되지 않아야 정상
 
         global_obj.hamburger_menu_obj().click()
         global_obj.side_bar_all_items_obj().click()

@@ -13,16 +13,6 @@ import requests
 SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 
 
-@pytest.fixture(params=[("chrome","Seo"),"Firefox","IE"]) # 각 브라우저 크로스체크 픽스쳐 설정
-def BrowserCrosscheck(request) :
-    return request.param
-
-# 사전조건으로 불러올 픽스쳐를 별도로 생성한다.
-@pytest.fixture()
-def Precondition_data() :
-    print("사용자 프로필 데이터 생성 중.....")
-    return ["Seo", "HyungDo", "May 2nd"]
-
 def pytest_addoption(parser):
     parser.addoption(
         "--browser_name", action="store", default="chrome"
@@ -102,53 +92,3 @@ def setup_function(request):
     # yield 이후 드라이버가 존재할 때만 닫아줌
     if driver:
         driver.quit()
-
-
-def pytest_terminal_summary(terminalreporter, exitstatus, config):
-    """pytest 실행 후 결과를 slack으로 전송"""
-    if not SLACK_WEBHOOK_URL:
-        return
-
-    total = terminalreporter._numcollected
-    passed = len(terminalreporter.stats.get("passed", []))
-    failed_tests = terminalreporter.stats.get("failed", [])
-    failed = len(failed_tests)
-    skipped = len(terminalreporter.stats.get("skipped", []))
-
-    # 기본 결과 메시지
-    text = (
-        f"*🧪 Pytest 결과 보고*\n"
-        f"총 *{total}*개 테스트 중 ✅ *{passed}*개 통과, "
-        f"❌ *{failed}*개 실패, ⚠️ *{skipped}*개 스킵"
-    )
-
-    color = "#36a64f" if failed == 0 else "#ff0000"
-    attachments = [{
-        "fallback": "pytest 실행 결과",
-        "color": color,
-        "text": text,
-    }]
-
-    # 실패한 테스트 상세 정보 추가
-    if failed > 0:
-        failed_details = []
-        for rep in failed_tests:
-            nodeid = rep.nodeid  # 실패한 테스트 파일::클래스::메서드
-            longrepr = str(rep.longrepr)  # 전체 에러 메시지 (stacktrace 포함)
-            short_error = "\n".join(longrepr.splitlines()[-5:])  # 마지막 5줄만 잘라서 보여줌
-            failed_details.append(f"• *{nodeid}*\n```{short_error}```")
-
-        attachments.append({
-            "color": "#ff0000",
-            "title": "실패한 테스트 상세",
-            "text": "\n".join(failed_details),
-            "mrkdwn_in": ["text"]
-        })
-
-    payload = {"attachments": attachments}
-
-    try:
-        resp = requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload))
-        print(f"[INFO] Slack 전송 완료 (status={resp.status_code})")
-    except Exception as e:
-        print(f"[WARN] Slack 메시지 전송 실패: {e}")

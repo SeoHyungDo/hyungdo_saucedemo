@@ -17,6 +17,8 @@ class standard_user_obj :
     Add_to_cart = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
     Add_to_cart_click_after = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
 
+    product_title = (By.XPATH,'//*[@id="header_container"]/div[2]/span')
+
     first_product_title = (By.XPATH, '//*[@id="item_4_title_link"]/div')
     first_product_description = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div')
     first_product_price = (By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[2]/div')
@@ -47,6 +49,9 @@ class standard_user_obj :
         self.driver.find_element(*self.login_button).click()
 
         wait.until(EC.visibility_of_element_located((By.ID, "inventory_container")))
+
+    def product_title_obj(self):
+        return self.driver.find_element(*self.product_title).text
 
     def first_add_to_cart_button_obj(self):
         return self.driver.find_element(*self.first_add_to_cart_button)
