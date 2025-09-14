@@ -51,7 +51,7 @@ class Test_standard_user(passclass) :
 
 
 
-    # 픽스쳐 클래스로 일괄 사용시 프레임 터지는 현상 발생하여 다른 코드에 영향을 주는 현상이 있어, 해당 이슈가 다른 테스트에 영향을 주지 않도록 해당 기능 3개 TC는 함수 단위로 픽스쳐 샤용
+    # # 픽스쳐 클래스로 일괄 사용시 프레임 터지는 현상 발생하여 다른 코드에 영향을 주는 현상이 있어, 해당 이슈가 다른 테스트에 영향을 주지 않도록 해당 기능 3개 TC는 함수 단위로 픽스쳐 샤용
     # @pytest.mark.usefixtures("setup_function")
     # def test_twitter_button_action(self):
     #     global_obj = global_menu(self.driver)
@@ -60,16 +60,15 @@ class Test_standard_user(passclass) :
     #     standard_user.input_id_standard_user_login_obj("standard_user", "secret_sauce")  # standard User Login
     #
     #
+    #
     #     WebDriverWait(self.driver, 10).until(
     #         EC.visibility_of_element_located((By.ID, "inventory_container"))
     #     )
     #
     #     global_obj.twitter_button_tab_action()
-    #
     #     twitter_url = global_obj.twitter_button_tab_action()
     #     assert "https://x.com/saucelabs" in twitter_url  # Url에 https://x.com/saucelabs 포함 확인
-    #
-    #
+
     # @pytest.mark.usefixtures("setup_function")
     # def test_facebook_button_action(self):
     #     global_obj = global_menu(self.driver)
@@ -124,7 +123,7 @@ class Test_standard_user(passclass) :
         assert actual_first_product["first_product_title"] == first_product_title_expect # 첫번째 상품 상품명 확인
         assert actual_first_product["first_product_description"] == first_product_description_expect # 첫번째 상품 Description 확인
         assert actual_first_product["first_product_price"] == first_product_price_expect # 첫번째 상품 가격 확인
-        assert actual_first_product["add_to_cart"] == first_add_to_cart_button # 첫번째 상품 add to cart 버튼 확인
+        assert actual_first_product["first_add_to_cart"] == first_add_to_cart_button # 첫번째 상품 add to cart 버튼 확인
 
     def test_first_product_move_cart(self):
         standard_user = standard_user_obj(self.driver)
@@ -183,15 +182,9 @@ class Test_standard_user(passclass) :
     def test_cart_remove_action(self):
         global_obj = global_menu(self.driver)
         cart_obj = cart(self.driver)
+        standard_user = standard_user_obj(self.driver)
 
         cart_obj.cart_remove_button_obj().click()
-
-        wait = WebDriverWait(self.driver, 5)  # 최대 5초까지만 대기
-        wait.until(EC.invisibility_of_element_located(cart_obj.cart_list_qty_number_1_locator))
-        wait.until(EC.invisibility_of_element_located(cart_obj.cart_list_product_name_1_locator))
-        wait.until(EC.invisibility_of_element_located(cart_obj.cart_list_product_description_1_locator))
-        wait.until(EC.invisibility_of_element_located(cart_obj.cart_list_product_price_1_locator))
-        wait.until(EC.invisibility_of_element_located(cart_obj.cart_remove_button))
 
         assert global_obj.top_logo_text() == "Swag Labs"
         assert cart_obj.cart_your_cart_title() == "Your Cart"
@@ -206,31 +199,34 @@ class Test_standard_user(passclass) :
         assert not self.driver.find_elements(*cart_obj.cart_list_product_name_1_locator)
         assert not self.driver.find_elements(*cart_obj.cart_list_product_description_1_locator)
         assert not self.driver.find_elements(*cart_obj.cart_list_product_price_1_locator)
-        assert not self.driver.find_elements(*cart_obj.cart_remove_button)
+        assert not self.driver.find_elements(*cart_obj.cart_remove_button_count_obj())
 
         global_obj.hamburger_menu_obj().click()
         global_obj.side_bar_all_items_obj().click()
-        standard_user_obj.first_add_to_cart_button()
-        standard_user_obj.second_add_to_cart_button()
+        global_obj.hamburger_menu_obj().click()
+        global_obj.side_bar_reset_app_state_obj().click()
+
 
     def test_add_product_2ea(self):
-        global_obj = global_menu(self.driver)
-        cart_obj = cart(self.driver)
         standard_user = standard_user_obj(self.driver)
+        global_obj = global_menu(self.driver)
+
+        standard_user.first_add_to_cart_button_obj().click()
+        standard_user.second_add_to_cart_button_obj().click()
 
         actual_second_product = standard_user.second_product_info()
 
         second_product_title_expect = "Sauce Labs Bike Light"
         second_product_description_expect = "A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included."
         second_product_price_expect = "$9.99"
-        second_add_to_cart_button = "Add to cart"
+        second_remove_button_expect = "Remove"
 
         assert actual_second_product["second_product_title"] == second_product_title_expect # 두번째 상품 상품명 확인
         assert actual_second_product["second_product_description"] == second_product_description_expect # 두번째 상품 Description 확인
         assert actual_second_product["second_product_price"] == second_product_price_expect # 두번째 상품 가격 확인
-        assert actual_second_product["add_to_cart"] == second_add_to_cart_button # 두번째 상품 add to cart 버튼 확인
+        assert actual_second_product["second_remove_button"] == second_remove_button_expect # 두번째 상품 Remove 버튼 확인
 
-        global_obj.cart_button().click()
+        global_obj.cart_button_obj().click()
 
     def test_second_cart_base_ui(self):
         global_obj = global_menu(self.driver)
@@ -242,12 +238,12 @@ class Test_standard_user(passclass) :
         assert cart_obj.cart_list_qty() == "QTY"  # Cart > List > QTY 명칭 확인
         assert cart_obj.cart_list_description() == "Description"  # Cart > List > Description 명칭 확인
 
-        assert cart_obj.cart_list_qty_number_1_obj() == "1"  # Cart > List > Qty > 1 노츨 확인
+        assert cart_obj.cart_list_qty_number_1_obj() == "1"  # Cart > List > 첫번째 상품 Qty > 1 노츨 확인
         assert cart_obj.cart_list_product_name_1_obj() == "Sauce Labs Backpack"  # Cart > List > Cart에 추가된 상품명 확인
         assert cart_obj.cart_list_product_description_1_obj() == "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection."  # Cart > List > Cart에 추가된 상품 Description 확인
         assert cart_obj.cart_list_product_price_1_obj() == "$29.99"  # Cart > List > Cart에 추가된 상품 가격 확인
 
-        assert cart_obj.cart_list_qty_number_2_obj() == "1"  # Cart > List > Qty > 1 노츨 확인
+        assert cart_obj.cart_list_qty_number_2_obj() == "1"  # Cart > List > 2번째 상품 Qty > 1 노츨 확인
         assert cart_obj.cart_list_product_name_2_obj() == "Sauce Labs Bike Light"  # Cart > List > Cart에 추가된 상품명 확인
         assert cart_obj.cart_list_product_description_2_obj() == "A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included."  # Cart > List > Cart에 추가된 상품 Description 확인
         assert cart_obj.cart_list_product_price_2_obj() == "$9.99"

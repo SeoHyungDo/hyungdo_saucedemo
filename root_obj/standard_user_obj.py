@@ -72,7 +72,7 @@ class standard_user_obj :
             "first_product_title" : self.driver.find_element(By.XPATH,'//*[@id="item_4_title_link"]/div').text,
             "first_product_description" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div').text,
             "first_product_price" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[2]/div').text,
-            "add_to_cart" : self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]').text
+            "first_add_to_cart" : self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]').text,
         }
         return first_product
 
@@ -81,6 +81,6 @@ class standard_user_obj :
             "second_product_title" : self.driver.find_element(By.XPATH, '//*[@id="item_0_title_link"]/div').text,
             "second_product_description" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[1]/div').text,
             "second_product_price" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[2]/div').text,
-            "add_to_cart" : self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-bike-light"]').text
+            "second_remove_button" : self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-bike-light"]').text
         }
         return second_product

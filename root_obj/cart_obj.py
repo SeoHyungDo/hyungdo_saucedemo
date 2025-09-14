@@ -68,6 +68,9 @@ class cart:
     def cart_remove_button_obj(self):
         return self.driver.find_element(*self.cart_remove_button)
 
+    def cart_remove_button_count_obj(self):
+        return self.driver.find_elements(*self.cart_remove_button)
+
     def cart_remove_button_text(self):
         return self.driver.find_element(*self.cart_remove_button).text
 
