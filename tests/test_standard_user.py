@@ -173,7 +173,7 @@ class Test_standard_user(passclass) :
         assert cart_obj.cart_list_description() == "Description" # Cart > List > Description 명칭 확인
         assert cart_obj.cart_list_qty_number_1_obj() == "1"  # Cart > List > Qty > 1 노츨 확인
         assert cart_obj.cart_list_product_name_1_obj() == "Sauce Labs Backpack"  # Cart > List > Cart에 추가된 상품명 확인
-        assert cart_obj.cart_list_product_description_1_obj() == "carry.allTheTings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection."  # Cart > List > Cart에 추가된 상품 Description 확인
+        assert cart_obj.cart_list_product_description_1_obj() == "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection."  # Cart > List > Cart에 추가된 상품 Description 확인
         assert cart_obj.cart_list_product_price_1_obj() == "$29.99" # Cart > List > Cart에 추가된 상품 가격 확인
         assert cart_obj.cart_remove_button_text() == "Remove" # Cart > Remove 버튼 확인
         assert cart_obj.cart_continue_shopping_button_text() == "Continue Shopping" # Cart > Continue 버튼 확인
