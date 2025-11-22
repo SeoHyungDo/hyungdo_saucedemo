@@ -6,14 +6,14 @@ import os
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from root_obj.standard_user_obj import standard_user_obj
-from utility.passclass import passclass
+from utility.passclass import PassClass
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from root_obj.standard_user_obj import standard_user_obj
 from root_obj.global_obj import global_menu
 from root_obj.cart_obj import cart
 
-class Test_standard_user(passclass) :
+class Test_standard_user(PassClass) :
 
     # 로그인 후 URL에 inventory.html이 있는지 확인한다.
 
@@ -27,6 +27,7 @@ class Test_standard_user(passclass) :
         )
         assert "inventory.html" in self.driver.current_url # Url에 inventory.html이 포함 확인
 
+    # products title 노출여부를 확인한다.
     def test_product_title(self):
         standard_user = standard_user_obj(self.driver)
 
@@ -34,6 +35,8 @@ class Test_standard_user(passclass) :
 
         assert standard_user.product_title_text() == product_title_expect
 
+
+    # sort SelectBox에 노출되는 Text가 기대값과 일치하는지 확인한다.
     def test_sort_select_box(self):
         standard_user = standard_user_obj(self.driver)
 
@@ -48,6 +51,7 @@ class Test_standard_user(passclass) :
         assert sort_select_box_actual == sort_select_box_expect, \
             f"Expected {sort_select_box_expect}, but got {sort_select_box_actual}"
 
+    # 좌측 햄버거 메뉴 명칭이 기대값과 일치하는지 확인한다.
     def test_left_menu(self):
         global_obj = global_menu(self.driver)
 
@@ -122,6 +126,8 @@ class Test_standard_user(passclass) :
     #     self.driver.execute_script("arguments[0].scrollIntoView(true);", global_obj.twitter_button_obj())
     #     linkedin_url = global_obj.linkedin_button_tab_action()
     #     assert "https://www.linkedin.com/authwall" in linkedin_url  # Url이 너무 길어서 일부만 포함하는 내용으로 확인함 (로그인 페이지임)
+
+    # Footer text가 기대값에 맞게 노출되는지 확인한다.
     def test_footer_text_check(self):
         global_obj = global_menu(self.driver)
         footer_text_expect = '© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy'
