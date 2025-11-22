@@ -2,13 +2,13 @@ import pytest
 import time
 import requests
 from selenium.webdriver.common.by import By
-from utility.passclass import passclass
+from utility.passclass import PassClass
 from root_obj.loginpage_obj import saucedemo_home
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from root_obj.global_obj import global_menu
 
-class Test_demotest(passclass) :
+class Test_demotest(PassClass) :
 
     # URL로 정상 연결 되는지 확인한다.
     def test_login_url_check(self):
