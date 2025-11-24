@@ -8,10 +8,9 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import requests
-
-# 이 코드는 jackins 에 등록
-SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
-
+from root_obj.global_obj import global_menu
+from root_obj.standard_user_obj import standard_user_obj
+from root_obj.cart_obj import cart
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -57,6 +56,9 @@ def setup(request):
     # driver = webdriver.Chrome(service=service_obj)
     driver.implicitly_wait(5)
     request.cls.driver = driver  # 여기서 선언한 객체가 클래스로 보내짐, 해당 문이 있으면 return 필요 없음
+    request.cls.global_obj = global_menu(driver)
+    request.cls.standard_user = standard_user_obj(driver)
+    request.cls.cart = cart(driver)
 
     yield  # 테스트 종료 후
     driver.close()  # 브라우저를 닫아줌

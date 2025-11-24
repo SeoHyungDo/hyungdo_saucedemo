@@ -8,6 +8,12 @@ class cart:
     def __init__(self, driver):  # 생성자, 객체를 생성할 때 driver객체를 인자로 넣어 줄 것이라 생각하고 그 driver 객체를 받아 self.driver에 할당
         self.driver = driver
 
+
+    first_product_title_expect = "Sauce Labs Backpack"
+    first_product_description_expect = "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection."
+    first_product_price_expect = "$29.99"
+    first_add_to_cart_button = "Add to cart"
+
     # 버튼 액션과 명칭 검증 등 여러가지가 필요한 경우 변수로 선언 했습니다.
     cart_button = (By.XPATH, '//*[@id="shopping_cart_container"]/a') # 상단 Cart Button
     cart_button_badge = (By.XPATH, '//*[@id="shopping_cart_container"]/a/span') # Cart에 등록 된 상품이 있는 경우 노출되는 Count Badge
