@@ -12,7 +12,8 @@ class standard_user_obj :
         self.input_id = (By.ID, 'user-name')
         self.input_pw = (By.ID, 'password')
         self.login_button = (By.ID, 'login-button')
-
+        self.actual_first_product = None
+        self.actual_second_product = None
 
     Add_to_cart = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
     Add_to_cart_click_after = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
@@ -31,6 +32,8 @@ class standard_user_obj :
     first_add_to_cart_button = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]')
     second_add_to_cart_button = (By.XPATH, '//*[@id="add-to-cart-sauce-labs-bike-light"]')
     remove_cart_button = (By.XPATH, '//*[@id="remove-sauce-labs-backpack"]')
+
+
 
     def input_id_standard_user_login_obj(self, username, password): # ID에 standard_user 입력 상태
         # send_keys를 하기 전에 JavaScript를 실행해서 자동 완성 팝업을 방지
@@ -81,19 +84,46 @@ class standard_user_obj :
 
 
     def first_product_info(self):
-        first_product = {
-            "first_product_title" : self.driver.find_element(By.XPATH,'//*[@id="item_4_title_link"]/div').text,
-            "first_product_description" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div').text,
-            "first_product_price" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[1]/div[2]/div[2]/div').text,
-            "first_add_to_cart" : self.driver.find_element(By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]').text,
+        self.actual_first_product = {
+            "first_product_title": self.driver.find_element(
+                By.XPATH, '//*[@id="item_4_title_link"]/div'
+            ).text,
+            "first_product_description": self.driver.find_element(
+                By.XPATH, '//*[@id="inventory_container"]/div/div[1]/div[2]/div[1]/div'
+            ).text,
+            "first_product_price": self.driver.find_element(
+                By.XPATH, '//*[@id="inventory_container"]/div/div[1]/div[2]/div[2]/div'
+            ).text,
+            "first_add_to_cart": self.driver.find_element(
+                By.XPATH, '//*[@id="add-to-cart-sauce-labs-backpack"]'
+            ).text,
         }
-        return first_product
+        return self.actual_first_product
+
+    def first_product_expect_text(self):
+        self.first_product_title_expect = "Sauce Labs Backpack"
+        self.first_product_description_expect = (
+            "carry.allTheThings() with the sleek, streamlined Sly Pack that "
+            "melds uncompromising style with unequaled laptop and tablet protection."
+        )
+        self.first_product_price_expect = "$29.99"
+        self.first_add_to_cart_button_text = "Add to cart"
 
     def second_product_info(self):
-        second_product = {
-            "second_product_title" : self.driver.find_element(By.XPATH, '//*[@id="item_0_title_link"]/div').text,
-            "second_product_description" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[1]/div').text,
-            "second_product_price" : self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[2]/div').text,
-            "second_remove_button" : self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-bike-light"]').text
+        self.actual_second_product = {
+            "second_product_title": self.driver.find_element(By.XPATH, '//*[@id="item_0_title_link"]/div').text,
+            "second_product_description": self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[1]/div').text,
+            "second_product_price": self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[2]/div').text,
+            "second_add_to_cart":  self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-bike-light"]').text
         }
-        return second_product
+        return self.actual_second_product
+
+    def second_product_expect_text(self):
+        self.second_product_title_expect = "Sauce Labs Bike Light"
+        self.second_product_description_expect = (
+            "A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included."
+        )
+        self.second_product_price_expect = "$9.99"
+        self.second_remove_button_text = "Remove"
+
+
