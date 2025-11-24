@@ -110,11 +110,20 @@ class standard_user_obj :
         self.first_add_to_cart_button_text = "Add to cart"
 
     def second_product_info(self):
+        second_cart_item = self.driver.find_elements(By.CLASS_NAME, "cart_item")[1]
+
+        title = second_cart_item.find_element(By.CLASS_NAME, "inventory_item_name")
+        desc = second_cart_item.find_element(By.CLASS_NAME, "inventory_item_desc")
+        price = second_cart_item.find_element(By.CLASS_NAME, "inventory_item_price")
+        remove_button = second_cart_item.find_element(
+            By.XPATH, ".//button[contains(@id, 'remove')]"
+        )
+
         self.actual_second_product = {
-            "second_product_title": self.driver.find_element(By.XPATH, '//*[@id="item_0_title_link"]/div').text,
-            "second_product_description": self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[1]/div').text,
-            "second_product_price": self.driver.find_element(By.XPATH,'//*[@id="inventory_container"]/div/div[2]/div[2]/div[2]/div').text,
-            "second_add_to_cart":  self.driver.find_element(By.XPATH, '//*[@id="remove-sauce-labs-bike-light"]').text
+            "second_product_title": title.text,
+            "second_product_description": desc.text,
+            "second_product_price": price.text,
+            "second_remove_button": remove_button.text,
         }
         return self.actual_second_product
 
@@ -125,5 +134,4 @@ class standard_user_obj :
         )
         self.second_product_price_expect = "$9.99"
         self.second_remove_button_text = "Remove"
-
 

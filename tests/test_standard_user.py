@@ -289,24 +289,49 @@ class Test_standard_user(PassClass) :
     def test_cart_remove_action_remove_button_not_exist(self):
         assert not self.driver.find_elements(*self.cart.cart_remove_button_count_obj()) # 이미 삭제되었으므로, remove 버튼이 노출되지 않아야 정상
 
+    # 햄버거 메뉴를 안누르는 문제
         self.global_obj.hamburger_menu_obj().click()
         self.global_obj.side_bar_all_items_obj().click()
         self.global_obj.hamburger_menu_obj().click()
         self.global_obj.side_bar_reset_app_state_obj().click()
 
-
-    def test_add_product_2ea(self):
         self.standard_user.first_add_to_cart_button_obj().click()
         self.standard_user.second_add_to_cart_button_obj().click()
 
-        actual_second_product = self.standard_user.second_product_info()
-
-        assert actual_second_product["second_product_title"] == second_product_title_expect # 두번째 상품 상품명 확인
-        assert actual_second_product["second_product_description"] == second_product_description_expect # 두번째 상품 Description 확인
-        assert actual_second_product["second_product_price"] == second_product_price_expect # 두번째 상품 가격 확인
-        assert actual_second_product["second_remove_button"] == second_remove_button_expect # 두번째 상품 Remove 버튼 확인
-
         self.global_obj.cart_button_obj().click()
+
+    def test_second_product_title_name(self):
+        self.standard_user.second_product_info()
+        self.standard_user.second_product_expect_text()
+
+        assert (
+                self.standard_user.actual_second_product["second_product_title"]
+                == self.standard_user.second_product_title_expect)
+
+    def test_second_product_description(self):
+        self.standard_user.second_product_info()
+        self.standard_user.second_product_expect_text()
+
+        assert (
+                self.standard_user.actual_second_product["second_product_description"]
+                == self.standard_user.second_product_description_expect)
+
+    def test_second_product_price(self):
+        self.standard_user.second_product_info()
+        self.standard_user.second_product_expect_text()
+
+        assert (
+                self.standard_user.actual_second_product["second_product_price"]
+                == self.standard_user.second_product_price_expect)
+
+
+    def test_second_remove_button(self):
+        self.standard_user.second_product_info()
+        self.standard_user.second_product_expect_text()
+
+        assert (
+                self.standard_user.actual_second_product["second_remove_button"]
+                == self.standard_user.second_remove_button_text)
 
     def test_second_cart_base_ui(self):
         assert self.global_obj.top_logo_text() == "Swag Labs"  # Cart > 로고 명칭 확인
