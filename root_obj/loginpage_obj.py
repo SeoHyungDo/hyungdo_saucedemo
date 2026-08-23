@@ -20,17 +20,7 @@ class saucedemo_home:
 
     def id_pw_clear(self):
         # Mac은 Command + A, 그 외 OS는 Ctrl + A
-        select_all_key = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
-
-        id_input_element = self.driver.find_element(*self.input_id)
-        id_input_element.click()
-        id_input_element.send_keys(select_all_key, "a")
-        id_input_element.send_keys(Keys.BACKSPACE)
-
-        pw_input_element = self.driver.find_element(*self.input_pw)
-        pw_input_element.click()
-        pw_input_element.send_keys(select_all_key, "a")
-        pw_input_element.send_keys(Keys.BACKSPACE)
+        self.driver.get("https://www.saucedemo.com/")
 
     def login_top_logo_text(self):
         return self.driver.find_element(*self.login_top_logo).text
