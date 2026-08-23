@@ -18,11 +18,13 @@ class saucedemo_home:
 
     def id_pw_clear(self):
         id_input_element = self.driver.find_element(*self.input_id)
-        id_input_element.send_keys(Keys.CONTROL + "a")
+        id_input_element.click()
+        id_input_element.send_keys(Keys.CONTROL, "a")
         id_input_element.send_keys(Keys.BACKSPACE)
 
         pw_input_element = self.driver.find_element(*self.input_pw)
-        pw_input_element.send_keys(Keys.CONTROL + "a")
+        pw_input_element.click()
+        pw_input_element.send_keys(Keys.CONTROL, "a")
         pw_input_element.send_keys(Keys.BACKSPACE)
 
     def login_top_logo_text(self):
