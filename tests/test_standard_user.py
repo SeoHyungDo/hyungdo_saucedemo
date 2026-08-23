@@ -132,7 +132,7 @@ class Test_standard_user(PassClass) :
 
     # Footer text가 기대값에 맞게 노출되는지 확인한다.
     def test_footer_text_check(self):
-        footer_text_expect = '© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy'
+        footer_text_expect = '© 2026 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy'
         assert self.global_obj.footer_text_obj() == footer_text_expect
 
     def test_product_image_check(self):
