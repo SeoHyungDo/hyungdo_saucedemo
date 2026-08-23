@@ -5,6 +5,7 @@ import requests
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import platform
 
 class saucedemo_home:
     def __init__(self, driver): #생성자, 객체를 생성할 때 driver객체를 인자로 넣어 줄 것이라 생각하고 그 driver 객체를 받아 self.driver에 할당
@@ -16,15 +17,19 @@ class saucedemo_home:
     validation_text_area = (By.XPATH,'//*[@id="login_button_container"]/div/form/div[3]/h3')
     login_top_logo = (By.XPATH,'//*[@id="root"]/div/div[1]')
 
+
     def id_pw_clear(self):
+        # Mac은 Command + A, 그 외 OS는 Ctrl + A
+        select_all_key = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+
         id_input_element = self.driver.find_element(*self.input_id)
         id_input_element.click()
-        id_input_element.send_keys(Keys.CONTROL, "a")
+        id_input_element.send_keys(select_all_key, "a")
         id_input_element.send_keys(Keys.BACKSPACE)
 
         pw_input_element = self.driver.find_element(*self.input_pw)
         pw_input_element.click()
-        pw_input_element.send_keys(Keys.CONTROL, "a")
+        pw_input_element.send_keys(select_all_key, "a")
         pw_input_element.send_keys(Keys.BACKSPACE)
 
     def login_top_logo_text(self):
